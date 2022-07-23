@@ -30,7 +30,7 @@ const BeerResponsiveBar = () => {
             console.log(entries)
           }
           if (entriesResultObject.length === 0) {
-            setBeers(entries)
+            setBeers(JSON.stringify(entries))
           }
         })
         .catch(error => console.log('error', error));
@@ -47,7 +47,9 @@ const BeerResponsiveBar = () => {
   }
 
   return (
-    <div>{beers || null ? beers.map(beers => <div>{beers.name}</div>) : <div>"No hay chervecha"</div>}</div>
+    <div style={{ height: "400px" }}>
+    <ResponsiveBar data={beers} keys={["name"]} indexBy="id" />
+  </div>
   );
 
 }
