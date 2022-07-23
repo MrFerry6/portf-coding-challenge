@@ -1,17 +1,11 @@
 import BeerResponsiveBar from './BeerResponsiveBar';
 import './App.css';
-
-const data = [
-  { example: 1, value: 250 },
-  { example: 2, value: 25 },
-  { example: 3, value: 3500 }
-];
-
+import beers from './Beers';
 
 function App() {
   return (
     <div className="App">
-    <BeerResponsiveBar data={data}/>
+    <BeerResponsiveBar data={beers}/>
     </div>
   );
 }
