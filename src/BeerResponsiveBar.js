@@ -7,10 +7,10 @@ import { useEffect, useState } from "react";
 
 const BeerResponsiveBar = () => {
   const data = [
-    { quarter: 1, earnings: 13000 },
-    { quarter: 2, earnings: 16500 },
-    { quarter: 3, earnings: 14250 },
-    { quarter: 4, earnings: 19000 }
+    { quarter: 1, earnings: 1000.5 },
+    { quarter: 2, earnings: 1000.2 },
+    { quarter: 3, earnings: 25000.5},
+    { quarter: 4, earnings: 1000.5 }
   ];
   const [beers, setBeers] = useState([{}])
 
@@ -52,7 +52,25 @@ const BeerResponsiveBar = () => {
   console.log("BEERS="+ JSON.stringify( beers))
   return (
     <div style={{ height: "400px" }}>
-    <ResponsiveBar data={beers} keys={["abv"]} indexBy="id" />
+    <ResponsiveBar data={beers} 
+    keys={["abv"]} 
+    indexBy="id"
+     minValue="0" 
+     maxValue="20"
+     margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+     padding={0.4}
+     valueScale={{ type: "linear" }}
+     colors="#3182CE"
+     animate={true}
+     enableLabel={true}
+     axisLeft={{
+       tickSize: 5,
+       tickPadding: 5,
+       tickRotation: 0,
+       legend: "degrees",
+       legendPosition: "middle",
+       legendOffset: -40}}
+    />
   </div>
   );
 
