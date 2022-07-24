@@ -6,7 +6,12 @@ import { useEffect, useState } from "react";
 
 
 const BeerResponsiveBar = () => {
-  
+  const data = [
+    { quarter: 1, earnings: 13000 },
+    { quarter: 2, earnings: 16500 },
+    { quarter: 3, earnings: 14250 },
+    { quarter: 4, earnings: 19000 }
+  ];
   const [beers, setBeers] = useState([{}])
 
   useEffect(() => {
@@ -15,7 +20,7 @@ const BeerResponsiveBar = () => {
 
     function getAllbeers(page) {
       var requestOptions = getRequestOptions()
-      let url = "https://api.punkapi.com/v2/beers?page=" + page + "&per_page=80"
+      let url = "https://api.punkapi.com/v2/beers?page=" + page + "&per_page=8"
 
       fetch(url, requestOptions)
         .then(response => response.text())
@@ -25,12 +30,11 @@ const BeerResponsiveBar = () => {
             for (let entrie of entriesResultObject) {
               entries.push(entrie)
             }
-            getAllbeers(page + 1)
-
-            console.log(entries)
+            //getAllbeers(page + 1)
+            setBeers(entries)
           }
           if (entriesResultObject.length === 0) {
-            setBeers(JSON.stringify(entries))
+            setBeers(entries)
           }
         })
         .catch(error => console.log('error', error));
@@ -45,10 +49,10 @@ const BeerResponsiveBar = () => {
       redirect: 'follow'
     };
   }
-
+  console.log("BEERS="+ JSON.stringify( beers))
   return (
     <div style={{ height: "400px" }}>
-    <ResponsiveBar data={beers} keys={["name"]} indexBy="id" />
+    <ResponsiveBar data={beers} keys={["abv"]} indexBy="id" />
   </div>
   );
 
