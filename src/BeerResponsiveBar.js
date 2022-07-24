@@ -29,7 +29,6 @@ const BeerResponsiveBar = () => {
               entries.push(entrie)
             }
             getAllbeers(page + 1)
-            //setBeers(entries)
           }
           if (entriesResultObject.length === 0) {
             setBeers(entries)
@@ -43,21 +42,12 @@ const BeerResponsiveBar = () => {
     const dataGroups = []
     for (let beer of beers) {
       let date = new Date()
-
-      if (beer.first_brewed?.length === 4) {
-        date = new Date(beer.first_brewed)
-      }
-      if (beer.first_brewed?.length === 7) {
-        date = CreateDate(beer);
-        console.log(date + "----" + beer.first_brewed)
-      }
+      date = isYearFormat(beer, date);
+      date = isYearMonthFormat(beer, date);
+      console.log(date)
     }
 
-    function CreateDate(beer) {
-      let month = beer.first_brewed?.substr(0, 2) - 1
-      let year = beer.first_brewed?.substr(3, 7)
-      return  new Date(year, month)
-    }
+
   }, [beers])
 
   function getRequestOptions() {
@@ -69,7 +59,7 @@ const BeerResponsiveBar = () => {
       redirect: 'follow'
     };
   }
-
+ 
   return (
     <><div style={{ height: "400px" }}>
       <ResponsiveBar data={beers}
@@ -99,3 +89,27 @@ const BeerResponsiveBar = () => {
 
 }
 export default BeerResponsiveBar;
+
+function isYearMonthFormat(beer, date) {
+  if (beer.first_brewed?.length === 7) {
+    date = CreateDate(beer)
+    return date
+  } else {
+    return date;
+  }
+}
+
+function isYearFormat(beer, date) {
+  if (beer.first_brewed?.length === 4) {
+    date = new Date(beer.first_brewed);
+    return date
+  } else {
+    return date;
+  }
+}
+
+function CreateDate(beer) {
+  let month = beer.first_brewed?.substr(0, 2) - 1
+  let year = beer.first_brewed?.substr(3, 7)
+  return new Date(year, month)
+}
