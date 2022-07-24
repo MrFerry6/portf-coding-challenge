@@ -2,9 +2,6 @@ import ResponsiveBar from "nivo/lib/components/charts/bar/ResponsiveBar";
 import { useEffect, useState } from "react";
 
 
-
-
-
 const BeerResponsiveBar = () => {
   const data = [
     { quarter: 1, earnings: 1000.5 },
@@ -13,14 +10,15 @@ const BeerResponsiveBar = () => {
     { quarter: 4, earnings: 1000.5 }
   ];
   const [beers, setBeers] = useState([{}])
-
+  const [dateGroups, setDateGroups] = useState([{}])
+  
   useEffect(() => {
     var entries = []
     getAllbeers(1);
 
     function getAllbeers(page) {
       var requestOptions = getRequestOptions()
-      let url = "https://api.punkapi.com/v2/beers?page=" + page + "&per_page=8"
+      let url = "https://api.punkapi.com/v2/beers?page=" + page + "&per_page=80"
 
       fetch(url, requestOptions)
         .then(response => response.text())
@@ -30,8 +28,8 @@ const BeerResponsiveBar = () => {
             for (let entrie of entriesResultObject) {
               entries.push(entrie)
             }
-            //getAllbeers(page + 1)
-            setBeers(entries)
+            getAllbeers(page + 1)
+            //setBeers(entries)
           }
           if (entriesResultObject.length === 0) {
             setBeers(entries)
@@ -40,6 +38,22 @@ const BeerResponsiveBar = () => {
         .catch(error => console.log('error', error));
     }
   }, [])
+  
+  useEffect(() =>{
+    const dataGroups = []
+    for(let beer of beers){
+      let date = new Date(beer.first_brewed)
+      console.log(date)
+      /*if(beer.first_brewed.length > 4){
+        console.log("Chervecha")
+      }
+      else{
+        date = new Date(beer.first_brewed)
+        console.log(date)
+      }*/
+    }
+  }, [beers])
+
   function getRequestOptions() {
     return {
       method: 'GET',
@@ -51,9 +65,9 @@ const BeerResponsiveBar = () => {
   }
   console.log("BEERS="+ JSON.stringify( beers))
   return (
-    <div style={{ height: "400px" }}>
+    <><div style={{ height: "400px" }}>
     <ResponsiveBar data={beers} 
-    keys={["abv"]} 
+    keys={[""]} 
     indexBy="id"
      minValue="0" 
      maxValue="20"
@@ -72,6 +86,8 @@ const BeerResponsiveBar = () => {
        legendOffset: -40}}
     />
   </div>
+    <div> {beers || null ? beers.map(beers => <div>{beers.first_brewed}</div>):<div>NoCervecha</div>}</div>
+  </>
   );
 
 }
