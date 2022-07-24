@@ -6,12 +6,12 @@ const BeerResponsiveBar = () => {
   const data = [
     { quarter: 1, earnings: 1000.5 },
     { quarter: 2, earnings: 1000.2 },
-    { quarter: 3, earnings: 25000.5},
+    { quarter: 3, earnings: 25000.5 },
     { quarter: 4, earnings: 1000.5 }
   ];
   const [beers, setBeers] = useState([{}])
   const [dateGroups, setDateGroups] = useState([{}])
-  
+
   useEffect(() => {
     var entries = []
     getAllbeers(1);
@@ -38,19 +38,22 @@ const BeerResponsiveBar = () => {
         .catch(error => console.log('error', error));
     }
   }, [])
-  
-  useEffect(() =>{
+
+  useEffect(() => {
     const dataGroups = []
-    for(let beer of beers){
-      let date = new Date(beer.first_brewed)
-      console.log(date)
-      /*if(beer.first_brewed.length > 4){
-        console.log("Chervecha")
-      }
-      else{
+    for (let beer of beers) {
+      let date = new Date()
+
+      if (beer.first_brewed?.length === 4) {
         date = new Date(beer.first_brewed)
         console.log(date)
-      }*/
+      }
+      if (beer.first_brewed?.length === 7) {
+        let month = beer.first_brewed?.substr(0, 2)-1
+        let year = beer.first_brewed?.substr(3, 7)
+        date = new Date(year, month)
+        console.log(date + "----" + beer.first_brewed)
+      }
     }
   }, [beers])
 
@@ -63,31 +66,32 @@ const BeerResponsiveBar = () => {
       redirect: 'follow'
     };
   }
-  console.log("BEERS="+ JSON.stringify( beers))
+
   return (
     <><div style={{ height: "400px" }}>
-    <ResponsiveBar data={beers} 
-    keys={[""]} 
-    indexBy="id"
-     minValue="0" 
-     maxValue="20"
-     margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
-     padding={0.4}
-     valueScale={{ type: "linear" }}
-     colors="#3182CE"
-     animate={true}
-     enableLabel={true}
-     axisLeft={{
-       tickSize: 5,
-       tickPadding: 5,
-       tickRotation: 0,
-       legend: "degrees",
-       legendPosition: "middle",
-       legendOffset: -40}}
-    />
-  </div>
-    <div> {beers || null ? beers.map(beers => <div>{beers.first_brewed}</div>):<div>NoCervecha</div>}</div>
-  </>
+      <ResponsiveBar data={beers}
+        keys={[""]}
+        indexBy="id"
+        minValue="0"
+        maxValue="20"
+        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+        padding={0.4}
+        valueScale={{ type: "linear" }}
+        colors="#3182CE"
+        animate={true}
+        enableLabel={true}
+        axisLeft={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: "degrees",
+          legendPosition: "middle",
+          legendOffset: -40
+        }}
+      />
+    </div>
+      <div> {beers || null ? beers.map(beers => <div>{beers.first_brewed}</div>) : <div>NoCervecha</div>}</div>
+    </>
   );
 
 }
