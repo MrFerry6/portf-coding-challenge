@@ -46,14 +46,17 @@ const BeerResponsiveBar = () => {
 
       if (beer.first_brewed?.length === 4) {
         date = new Date(beer.first_brewed)
-        console.log(date)
       }
       if (beer.first_brewed?.length === 7) {
-        let month = beer.first_brewed?.substr(0, 2)-1
-        let year = beer.first_brewed?.substr(3, 7)
-        date = new Date(year, month)
+        date = CreateDate(beer);
         console.log(date + "----" + beer.first_brewed)
       }
+    }
+
+    function CreateDate(beer) {
+      let month = beer.first_brewed?.substr(0, 2) - 1
+      let year = beer.first_brewed?.substr(3, 7)
+      return  new Date(year, month)
     }
   }, [beers])
 
