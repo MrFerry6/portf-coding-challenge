@@ -39,14 +39,25 @@ const BeerResponsiveBar = () => {
   }, [])
 
   useEffect(() => {
-    const dataGroups = []
+    let dataGroups = []
+    
+    
     for (let beer of beers) {
-      let date = new Date()
-      date = isYearFormat(beer, date);
-      date = isYearMonthFormat(beer, date);
-      console.log(date)
+      let date = new Date() 
+
+      date = ifYearFormat(beer, date)
+      date = ifYearMonthFormat(beer, date)
+      
+      if (isDateExist(dataGroups, date) === false){
+        dataGroups.push(newDataGroup(beer,date))
+      }
+      if(isDateExist(dataGroups, date) === true)
+      {
+        modifyDateGroup(dataGroups, date, beer)
+      }
     }
 
+    console.log(dataGroups)
 
   }, [beers])
 
@@ -90,7 +101,42 @@ const BeerResponsiveBar = () => {
 }
 export default BeerResponsiveBar;
 
-function isYearMonthFormat(beer, date) {
+function newDataGroup(beer, date) {
+  let newDataGroup = {
+    beersIds: [],
+    date: new Date(),
+    totalBeers: 0,
+    beersNames: []
+  };
+  newDataGroup.beersIds.push(beer.id);
+  console.log("DateObject = " + date);
+  newDataGroup.date = date;
+  newDataGroup.totalBeers++;
+  newDataGroup.beersNames.push(beer.name);
+  return newDataGroup;
+}
+
+function isDateExist(dataGroups, date) {
+  for (let group of dataGroups) {
+    //console.log((group.date.getMonth() +"---"+ date.getMonth() +"---"+ group.date.getFullYear() +"---"+ date.getFullYear()))
+    if ((group.date.getMonth() === date.getMonth() && group.date.getFullYear() === date.getFullYear())) {
+      return true;
+    }
+  }
+  return false;
+}
+function modifyDateGroup(dataGroups, date, beer) {
+  for (let group of dataGroups) {    
+    //console.log((group.date.getMonth() +"---"+ date.getMonth() +"---"+ group.date.getFullYear() +"---"+ date.getFullYear()))
+    if ((group.date.getMonth() === date.getMonth() && group.date.getFullYear() === date.getFullYear())) {
+      group.totalBeers ++
+      group.beersNames.push(beer.Name)
+      group.beersIds.push(beer.id)
+    }
+  }
+}
+
+function ifYearMonthFormat(beer, date) {
   if (beer.first_brewed?.length === 7) {
     date = CreateDate(beer)
     return date
@@ -99,7 +145,7 @@ function isYearMonthFormat(beer, date) {
   }
 }
 
-function isYearFormat(beer, date) {
+function ifYearFormat(beer, date) {
   if (beer.first_brewed?.length === 4) {
     date = new Date(beer.first_brewed);
     return date
