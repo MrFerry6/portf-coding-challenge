@@ -11,7 +11,8 @@ const BeerResponsiveBar = () => {
   ];
   const [beers, setBeers] = useState([{}])
   const [groupsByDate, setgroupsByDate] = useState([{}])
-  const [dateRange, seteDateRange] = useState({})
+  const [endDateRange, setendDateRange] = useState({})
+  const [estartDateRange, setEstartDateRange] = useState({})
 
   useEffect(() => {
     var entries = []
@@ -60,6 +61,8 @@ const BeerResponsiveBar = () => {
     
     sortDataGroups(dataGroups);
     console.log(dataGroups)
+
+    set
   }, [beers])
 
   function getRequestOptions() {
