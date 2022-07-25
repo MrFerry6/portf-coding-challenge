@@ -9,22 +9,28 @@ const Filter = ({end, start}) => {
     useEffect(() =>{
         setStartDate( new Date(start))
         setEndDate(new Date(end))
-        console.log( "From parameters" + JSON.stringify(end + start))
-        
-        console.log( "From State" + endDate + startDate)
-    },[end,start])
-    
-    useEffect(()=>{
-        console.log(startDate)
-        console.log(endDate)
-    },[startDate,endDate])
+    },[end,start]) 
+    function onEndDateChange(date)
+    {
+        if(date > end){
+            date = end
+        }
+        setEndDate(date)
+    }
+    function onStartDateChange(date)
+    {
+        if(date < start || date > end){
+            date = start
+        }
+        setStartDate(date)
+    }
     return (
         <>
             <DatePicker
             dateFormat="MM/yyyy"
             showMonthYearPicker 
             selected={startDate} 
-            onChange={(date) => setStartDate(date)}
+            onChange={(date) => onStartDateChange(date)}
             selectsStart
             startDate={startDate}
             endDate={endDate}
@@ -33,14 +39,14 @@ const Filter = ({end, start}) => {
             dateFormat="MM/yyyy"
             showMonthYearPicker 
             selected={endDate} 
-            onChange={(date) => setEndDate(date)}
+            onChange={(date) => onEndDateChange(date)}
             selectsStart
             startDate={startDate}
             endDate={endDate}
             minDate={startDate}  
             />
         </>
-    );
-};
+    )
+}
 
 export default Filter
