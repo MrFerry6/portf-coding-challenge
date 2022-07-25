@@ -3,10 +3,7 @@ import DatePicker from "react-datepicker"
 
 import "react-datepicker/dist/react-datepicker.css"
 
-// CSS Modules, react-datepicker-cssmodules.css
-// import 'react-datepicker/dist/react-datepicker-cssmodules.css'
-
-const Filter = () => {
+const Filter = ({end, star}) => {
     const [startDate, setStartDate] = useState(new Date());    
     const [endDate, setEndDate] = useState(new Date());
     return (
@@ -18,7 +15,7 @@ const Filter = () => {
             onChange={(date) => setStartDate(date)}
             selectsStart
             startDate={startDate}
-            endDate={endDate}
+            endDate={end}
             />
             <DatePicker
             dateFormat="MM/yyyy"

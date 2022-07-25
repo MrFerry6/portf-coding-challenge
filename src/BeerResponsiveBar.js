@@ -11,7 +11,8 @@ const BeerResponsiveBar = () => {
   ];
   const [beers, setBeers] = useState([{}])
   const [groupsByDate, setgroupsByDate] = useState([{}])
-
+  const [dateRange, seteDateRange] = useState({})
+  
   useEffect(() => {
     var entries = []
     getAllbeers(1);
