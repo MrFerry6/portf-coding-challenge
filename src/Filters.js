@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker"
 
 import "react-datepicker/dist/react-datepicker.css"
 
-const Filter = ({end, star}) => {
+const Filter = ({end, start}) => {
     const [startDate, setStartDate] = useState(new Date());    
     const [endDate, setEndDate] = useState(new Date());
     return (
@@ -25,7 +25,7 @@ const Filter = ({end, star}) => {
             selectsStart
             startDate={startDate}
             endDate={endDate}
-            minDate={startDate}  
+            minDate={start}  
             />
         </>
     );
