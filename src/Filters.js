@@ -7,10 +7,14 @@ import "react-datepicker/dist/react-datepicker.css"
 // import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 
 const Filter = () => {
-  const [startDate, setStartDate] = useState(new Date());
-  return (
-    <DatePicker selected={startDate} onChange={(date:Date) => setStartDate(date)} />
-  );
+    const [startDate, setStartDate] = useState(new Date());    
+    const [finishDate, setFinishDate] = useState(new Date());
+    return (
+        <>
+            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+            <DatePicker selected={finishDate} onChange={(date) => setFinishDate(date)} />
+        </>
+    );
 };
 
 export default Filter
