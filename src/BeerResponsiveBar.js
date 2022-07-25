@@ -48,10 +48,10 @@ const BeerResponsiveBar = () => {
       date = ifYearFormat(beer, date)
       date = ifYearMonthFormat(beer, date)
       
-      if (isDateExist(dataGroups, date) === false){
+      if (!isDateExist(dataGroups, date)){
         dataGroups.push(newDataGroup(beer,date))
       }
-      if(isDateExist(dataGroups, date) === true)
+      if(isDateExist(dataGroups, date))
       {
         modifyDateGroup(dataGroups, date, beer)
       }
@@ -119,16 +119,20 @@ function newDataGroup(beer, date) {
 function isDateExist(dataGroups, date) {
   for (let group of dataGroups) {
     //console.log((group.date.getMonth() +"---"+ date.getMonth() +"---"+ group.date.getFullYear() +"---"+ date.getFullYear()))
-    if ((group.date.getMonth() === date.getMonth() && group.date.getFullYear() === date.getFullYear())) {
+    if (isSameDate(group, date)) {
       return true;
     }
   }
   return false;
 }
+function isSameDate(group, date) {
+  return group.date.getMonth() === date.getMonth() && group.date.getFullYear() === date.getFullYear();
+}
+
 function modifyDateGroup(dataGroups, date, beer) {
   for (let group of dataGroups) {    
     //console.log((group.date.getMonth() +"---"+ date.getMonth() +"---"+ group.date.getFullYear() +"---"+ date.getFullYear()))
-    if ((group.date.getMonth() === date.getMonth() && group.date.getFullYear() === date.getFullYear())) {
+    if (isSameDate(group, date)) {
       group.totalBeers ++
       group.beersNames.push(beer.Name)
       group.beersIds.push(beer.id)
