@@ -127,7 +127,7 @@ function modifyDateGroup(dataGroups, date, beer) {
   for (let group of dataGroups) {
     if (isSameDate(group, date) && !group.beersIds.includes(beer.id)) {
       group.totalBeers++
-      group.beersNames.push(beer.Name)
+      group.beersNames.push(beer.name)
       group.beersIds.push(beer.id)
     }
   }
