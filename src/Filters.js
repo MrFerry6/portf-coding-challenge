@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import DatePicker from "react-datepicker"
-import { parseISO } from 'date-fns' 
 import "react-datepicker/dist/react-datepicker.css"
 
 const Filter = ({end, start}) => {
