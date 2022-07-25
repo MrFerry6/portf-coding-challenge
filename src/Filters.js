@@ -11,14 +11,18 @@ const Filter = () => {
     const [endDate, setEndDate] = useState(new Date());
     return (
         <>
-            <DatePicker 
+            <DatePicker
+            dateFormat="MM/yyyy"
+            showMonthYearPicker 
             selected={startDate} 
             onChange={(date) => setStartDate(date)}
             selectsStart
             startDate={startDate}
-            endDate={endDate} 
+            endDate={endDate}
             />
-            <DatePicker 
+            <DatePicker
+            dateFormat="MM/yyyy"
+            showMonthYearPicker 
             selected={endDate} 
             onChange={(date) => setEndDate(date)}
             selectsStart
