@@ -40,19 +40,17 @@ const BeerResponsiveBar = () => {
 
   useEffect(() => {
     let dataGroups = []
-    
-    
+
     for (let beer of beers) {
-      let date = new Date() 
+      let date = new Date()
 
       date = ifYearFormat(beer, date)
       date = ifYearMonthFormat(beer, date)
-      
-      if (!isDateExist(dataGroups, date)){
-        dataGroups.push(newDataGroup(beer,date))
+
+      if (!isDateExist(dataGroups, date)) {
+        dataGroups.push(newDataGroup(beer, date))
       }
-      if(isDateExist(dataGroups, date))
-      {
+      if (isDateExist(dataGroups, date)) {
         modifyDateGroup(dataGroups, date, beer)
       }
     }
@@ -70,7 +68,7 @@ const BeerResponsiveBar = () => {
       redirect: 'follow'
     };
   }
- 
+
   return (
     <><div style={{ height: "400px" }}>
       <ResponsiveBar data={beers}
@@ -118,26 +116,26 @@ function newDataGroup(beer, date) {
 
 function isDateExist(dataGroups, date) {
   for (let group of dataGroups) {
-    //console.log((group.date.getMonth() +"---"+ date.getMonth() +"---"+ group.date.getFullYear() +"---"+ date.getFullYear()))
     if (isSameDate(group, date)) {
       return true;
     }
   }
   return false;
 }
-function isSameDate(group, date) {
-  return group.date.getMonth() === date.getMonth() && group.date.getFullYear() === date.getFullYear();
-}
 
 function modifyDateGroup(dataGroups, date, beer) {
-  for (let group of dataGroups) {    
-    //console.log((group.date.getMonth() +"---"+ date.getMonth() +"---"+ group.date.getFullYear() +"---"+ date.getFullYear()))
-    if (isSameDate(group, date)) {
-      group.totalBeers ++
+  for (let group of dataGroups) {
+    if (isSameDate(group, date) && !group.beersIds.includes(beer.id)) {
+      group.totalBeers++
       group.beersNames.push(beer.Name)
       group.beersIds.push(beer.id)
     }
   }
+}
+
+function isSameDate(group, date) {
+  return group.date.getMonth() === date.getMonth() &&
+    group.date.getFullYear() === date.getFullYear();
 }
 
 function ifYearMonthFormat(beer, date) {
