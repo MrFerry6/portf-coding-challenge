@@ -69,11 +69,10 @@ const BeerResponsiveBar = () => {
 
   return (
     <><div style={{ height: "400px" }}>
-      <ResponsiveBar data={beers}
-        keys={[""]}
-        indexBy="id"
-        minValue="0"
-        maxValue="20"
+      <ResponsiveBar data={dateGroups}
+        keys={["totalBeers"]}
+        minValue={0}
+        maxValue={50}
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         padding={0.4}
         valueScale={{ type: "linear" }}
@@ -85,12 +84,12 @@ const BeerResponsiveBar = () => {
           tickPadding: 5,
           tickRotation: 0,
           legend: "degrees",
-          legendPosition: "middle",
+          legendPosition: "start",
           legendOffset: -40
         }}
       />
     </div>
-      <div> {beers || null ? beers.map(beers => <div>{beers.first_brewed}</div>) : <div>NoCervecha</div>}</div>
+      
     </>
   );
 
