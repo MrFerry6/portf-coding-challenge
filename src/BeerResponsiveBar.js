@@ -43,7 +43,7 @@ const BeerResponsiveBar = () => {
 
     for (let beer of beers) {
       let date = new Date()
-
+      
       date = ifYearFormat(beer, date)
       date = ifYearMonthFormat(beer, date)
 
@@ -53,10 +53,8 @@ const BeerResponsiveBar = () => {
       if (isDateExist(dataGroups, date)) {
         modifyDateGroup(dataGroups, date, beer)
       }
-    }
-
+    }    
     console.log(dataGroups)
-
   }, [beers])
 
   function getRequestOptions() {
@@ -105,13 +103,12 @@ function newDataGroup(beer, date) {
     date: new Date(),
     totalBeers: 0,
     beersNames: []
-  };
-  newDataGroup.beersIds.push(beer.id);
-  console.log("DateObject = " + date);
-  newDataGroup.date = date;
-  newDataGroup.totalBeers++;
-  newDataGroup.beersNames.push(beer.name);
-  return newDataGroup;
+  }
+  newDataGroup.beersIds.push(beer.id)
+  newDataGroup.date = date
+  newDataGroup.totalBeers++
+  newDataGroup.beersNames.push(beer.name)
+  return newDataGroup
 }
 
 function isDateExist(dataGroups, date) {
