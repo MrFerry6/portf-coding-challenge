@@ -10,7 +10,7 @@ const BeerResponsiveBar = () => {
     { quarter: 4, earnings: 1000.5 }
   ];
   const [beers, setBeers] = useState([{}])
-  const [dateGroups, setDateGroups] = useState([{}])
+  const [groupsByDate, setgroupsByDate] = useState([{}])
 
   useEffect(() => {
     var entries = []
@@ -53,7 +53,8 @@ const BeerResponsiveBar = () => {
       if (isDateExist(dataGroups, date)) {
         modifyDateGroup(dataGroups, date, beer)
       }
-    }    
+    }
+    setgroupsByDate(dataGroups)    
     console.log(dataGroups)
   }, [beers])
 
@@ -69,8 +70,9 @@ const BeerResponsiveBar = () => {
 
   return (
     <><div style={{ height: "400px" }}>
-      <ResponsiveBar data={dateGroups}
+      <ResponsiveBar data={groupsByDate}
         keys={["totalBeers"]}
+        indexBy="date"
         minValue={0}
         maxValue={50}
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
