@@ -1,11 +1,24 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import DatePicker from "react-datepicker"
-
+import { parseISO } from 'date-fns' 
 import "react-datepicker/dist/react-datepicker.css"
 
 const Filter = ({end, start}) => {
     const [startDate, setStartDate] = useState(new Date());    
     const [endDate, setEndDate] = useState(new Date());
+
+    useEffect(() =>{
+        setStartDate( new Date(start))
+        setEndDate(new Date(end))
+        console.log( "From parameters" + JSON.stringify(end + start))
+        
+        console.log( "From State" + endDate + startDate)
+    },[end,start])
+    
+    useEffect(()=>{
+        console.log(startDate)
+        console.log(endDate)
+    },[startDate,endDate])
     return (
         <>
             <DatePicker
@@ -15,7 +28,7 @@ const Filter = ({end, start}) => {
             onChange={(date) => setStartDate(date)}
             selectsStart
             startDate={startDate}
-            endDate={end}
+            endDate={endDate}
             />
             <DatePicker
             dateFormat="MM/yyyy"
@@ -25,7 +38,7 @@ const Filter = ({end, start}) => {
             selectsStart
             startDate={startDate}
             endDate={endDate}
-            minDate={start}  
+            minDate={startDate}  
             />
         </>
     );
