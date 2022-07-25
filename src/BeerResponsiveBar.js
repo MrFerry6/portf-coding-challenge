@@ -1,6 +1,6 @@
 import ResponsiveBar from "nivo/lib/components/charts/bar/ResponsiveBar";
 import { useEffect, useState } from "react";
-
+import Filter from "./Filters";
 
 const BeerResponsiveBar = () => {
   const data = [
@@ -70,6 +70,7 @@ const BeerResponsiveBar = () => {
 
   return (
     <><div style={{ height: "400px" }}>
+      <Filter/>
       <ResponsiveBar data={groupsByDate}
         keys={["totalBeers"]}
         indexBy="date"
