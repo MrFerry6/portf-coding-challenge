@@ -81,8 +81,9 @@ const BeerResponsiveBar = () => {
     
   }, [endDateRange, startDateRange])
   useEffect(() => {
-    subscribe("abvValueChange", (detail) => setAbvValue(detail.detail.value))    
-      
+     
+    subscribe("abvValueChange", (detail) => setAbvValue(detail.detail))   
+    console.log("Subscribed")
     setGroupsByFilterDate(filterByAbv(groupsByFilterDate, AbvValue))
     
   }, [AbvValue])
@@ -91,9 +92,9 @@ const BeerResponsiveBar = () => {
     setValuesAVList(getAbvValues(groupsByDate));
   }, [groupsByDate])
   useEffect(() => {
-    console.log("AvList behing --" + valuesABVList.length)
+    //console.log("AvList behing --" + valuesABVList.length)
     setValuesAVList(getAbvValues(groupsByFilterDate));
-    console.log("AvList after --" + valuesABVList.length)
+    //console.log("AvList after --" + valuesABVList.length)
   }, [groupsByFilterDate])
 
   function getRequestOptions() {
