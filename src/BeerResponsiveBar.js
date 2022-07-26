@@ -17,6 +17,7 @@ const BeerResponsiveBar = () => {
   const [startDateRange, setStartDateRange] = useState(new Date())  
   const [startMinDate, setStartMinDate] = useState(new Date());
   const [endMaxDate, setEndMaxDate] = useState(new Date());
+  const [isFromPiked, setIsFromPiked] = useState(false);
 
   useEffect(() => {
     subscribe("startDateChange", (detail) => setStartDateRange(new Date(detail.detail)))
@@ -64,6 +65,7 @@ const BeerResponsiveBar = () => {
       modifyIfExist(dataGroups, date, beer);
     }
     setGroupsByDate(dataGroups)
+    setIsFromPiked(false)
 
     sortDataGroups(dataGroups);
 
@@ -76,7 +78,7 @@ const BeerResponsiveBar = () => {
 
   useEffect(() =>{
     setGroupsByFilterDate(getByDateRange(startDateRange, endDateRange, groupsByDate))
-   
+    setIsFromPiked(true)
   }, [endDateRange, startDateRange])
 
 
@@ -98,7 +100,7 @@ const BeerResponsiveBar = () => {
       startMin={startMinDate} 
       endMax={endMaxDate}/>
 
-      <ResponsiveBar data={groupsByDate}
+      <ResponsiveBar data={isFromPiked? groupsByFilterDate : groupsByDate}
         keys={["totalBeers"]}
         indexBy="date"
         minValue={0}
