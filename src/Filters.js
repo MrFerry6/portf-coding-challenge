@@ -25,7 +25,7 @@ const Filter = ({ end, start }) => {
             date = start
         }
         setStartDate(date)        
-        publish('endStartChange')
+        publish('startDateChange')
     }
     return (
         <>

@@ -1,5 +1,6 @@
 import ResponsiveBar from "nivo/lib/components/charts/bar/ResponsiveBar";
 import { useEffect, useState } from "react";
+import { subscribe, unsubscribe } from "./Events";
 import Filter from "./Filters";
 
 const BeerResponsiveBar = () => {
@@ -15,6 +16,9 @@ const BeerResponsiveBar = () => {
   const [startDateRange, setStartDateRange] = useState(new Date())
 
   useEffect(() => {
+    subscribe("startDateChange", (end) => setStartDateRange(new Date()))
+    subscribe("endDateChange", (end) => setEndDateRange(new Date()))
+    
     var entries = []
     getAllbeers(1);
 
@@ -42,7 +46,7 @@ const BeerResponsiveBar = () => {
 
   useEffect(() =>{
     console.log("Effect tigered")
-  }, (endDateRange, startDateRange))
+  }, [endDateRange, startDateRange])
 
   useEffect(() => {
     let dataGroups = []
