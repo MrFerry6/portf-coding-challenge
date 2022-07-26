@@ -41,7 +41,11 @@ const BeerResponsiveBar = () => {
           }
         })
         .catch(error => console.log('error', error))
-    }
+      }
+      return () => {
+        unsubscribe("startDateChang");
+        unsubscribe("endtDateChang");
+      }
   }, [])
 
   useEffect(() =>{
