@@ -14,15 +14,15 @@ const BeerResponsiveBar = () => {
   const [groupsByDate, setGroupsByDate] = useState([{}])
   const [groupsByFilterDate, setGroupsByFilterDate] = useState([{}])
   const [endDateRange, setEndDateRange] = useState(new Date())
-  const [startDateRange, setStartDateRange] = useState(new Date())  
+  const [startDateRange, setStartDateRange] = useState(new Date())
   const [startMinDate, setStartMinDate] = useState(new Date())
   const [endMaxDate, setEndMaxDate] = useState(new Date())
   const [isFromPiked, setIsFromPiked] = useState(false)
   const [valuesABVList, setValuesAVList] = useState([])
+  const [AbvValue, setAbvValue] = useState(0)
   useEffect(() => {
     subscribe("startDateChange", (detail) => setStartDateRange(new Date(detail.detail)))
     subscribe("endDateChange", (detail) => setEndDateRange(new Date(detail.detail)))
-    
     var entries = []
     getAllbeers(1);
 
@@ -45,11 +45,11 @@ const BeerResponsiveBar = () => {
           }
         })
         .catch(error => console.log('error', error))
-      }
-      return () => {
-        unsubscribe("startDateChange");
-        unsubscribe("endDateChange");
-      }
+    }
+    return () => {
+      unsubscribe("startDateChange");
+      unsubscribe("endDateChange");
+    }
   }, [])
 
   useEffect(() => {
@@ -76,17 +76,26 @@ const BeerResponsiveBar = () => {
 
   }, [beers])
 
-  useEffect(() =>{
+  useEffect(() => {
     setGroupsByFilterDate(getByDateRange(startDateRange, endDateRange, groupsByDate))
     setIsFromPiked(true)
   }, [endDateRange, startDateRange])
-
-  useEffect(() =>{
+  useEffect(() => {
+    console.log(AbvValue)
+    subscribe("abvValueChange", (detail) => setAbvValue(detail.detail.value))
+    if (groupsByFilterDate.length > 0) {
+      setGroupsByFilterDate(filterByAbv(groupsByFilterDate, AbvValue))
+    }else{
+      setGroupsByDate(filterByAbv(groupsByDate, AbvValue))
+    }
+    
+  }, [AbvValue])
+  useEffect(() => {
     setValuesAVList(getAbvValues(groupsByDate));
-  },[groupsByDate])
-  useEffect(() =>{
+  }, [groupsByDate])
+  useEffect(() => {
     setValuesAVList(getAbvValues(groupsByFilterDate));
-  },[groupsByFilterDate])
+  }, [groupsByFilterDate])
 
   function getRequestOptions() {
     return {
@@ -97,18 +106,18 @@ const BeerResponsiveBar = () => {
       redirect: 'follow'
     };
   }
- 
+
   return (
     <><div style={{ height: "400px" }}>
-      <Filter 
-      end={endDateRange} 
-      start={startDateRange} 
-      startMin={startMinDate} 
-      endMax={endMaxDate}
-      AbvList={valuesABVList}/>
+      <Filter
+        end={endDateRange}
+        start={startDateRange}
+        startMin={startMinDate}
+        endMax={endMaxDate}
+        AbvList={valuesABVList} />
 
       <ResponsiveBar
-        data={isFromPiked? groupsByFilterDate : groupsByDate }
+        data={isFromPiked ? groupsByFilterDate : groupsByDate}
         keys={["totalBeers"]}
         indexBy="date"
         minValue={0}
@@ -136,11 +145,25 @@ const BeerResponsiveBar = () => {
 }
 export default BeerResponsiveBar;
 
+function filterByAbv(groupsByFilterDate, AbvValue) {
+  let groupsByAbv = [] 
+
+  for (let group of groupsByFilterDate) {
+    if (group.abv === AbvValue) {
+      groupsByAbv.push(group);
+    }
+  }
+
+  return groupsByAbv
+}
+
 function getAbvValues(groupsByDate) {
   let abvList = [];
 
   for (let group of groupsByDate) {
-    if (!abvList.includes(group.abv)) { abvList.push(group.abv); }
+    if (!abvList.includes(group.abv)) {
+       abvList.push(group.abv)
+      }
   }
   return abvList;
 }
@@ -162,18 +185,18 @@ function sortDataGroups(dataGroups) {
     return new Date(a.date) - new Date(b.date);
   });
 }
-function getByDateRange(start, end, groups){
-    let filterGroups = []
-    
-    console.log("from byDateRange = "+start+"/"+end )
-    console.log("unfilter-"+groups.length)
-    for(let group of groups){
-      if(group.date <= end && group.date >= start) {
-        filterGroups.push(group)
-      }      
+function getByDateRange(start, end, groups) {
+  let filterGroups = []
+
+  console.log("from byDateRange = " + start + "/" + end)
+  console.log("unfilter-" + groups.length)
+  for (let group of groups) {
+    if (group.date <= end && group.date >= start) {
+      filterGroups.push(group)
     }
-    console.log("filter-"+filterGroups.length)
-    return filterGroups
+  }
+  console.log("filter-" + filterGroups.length)
+  return filterGroups
 }
 function newDataGroup(beer, date) {
   let newDataGroup = {

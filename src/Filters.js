@@ -2,26 +2,40 @@ import React, { useEffect, useState } from "react"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { publish } from "./Events"
+import Select from "react-select"
 
 const Filter = ({ end, start, startMin, endMax, AbvList }) => {
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState(new Date())
     const [startMinDate, setStartMinDate] = useState(new Date())
     const [endMaxDate, setEndMaxDate] = useState(new Date())
-    const [AbvOptions, setABVOptions] = useState([])
+    const [AbvOptions, setABVOptions] = useState([{}])
+    const [AbvSelected, setAbvSelected] = useState(0)
     useEffect(() =>{
-        setABVOptions(AbvList)
+        let options = []
+        for (let abv of AbvList){
+            options.push({
+                label : abv,
+                value : abv
+            })
+        }
+        setABVOptions(options)
     },[AbvList])
 
     useEffect(() => {
         setStartDate(new Date(start))
         setEndDate(new Date(end))
     }, [end, start])
+    
     useEffect(() =>{
         setStartMinDate(new Date(startMin))
         setEndMaxDate(new Date(endMax))
     },[startMin, endMax])
     
+    useEffect(() =>{
+        publish('abvValueChange', AbvSelected)
+    },[AbvSelected])
+
     function onEndDateChange(date) {
         if (date > endMaxDate) {
             date = end
@@ -58,11 +72,12 @@ const Filter = ({ end, start, startMin, endMax, AbvList }) => {
                 endDate={endDate}
                 minDate={startDate}
             />
-            <select >
-            {AbvOptions.map((option) => (
-              <option value={option}>{option}</option>
-            ))}
-          </select>
+            <Select 
+            options={AbvOptions}
+            onChange={setAbvSelected}>
+            Select an ABV 
+            </Select>
+            
         </>
     )
 }
