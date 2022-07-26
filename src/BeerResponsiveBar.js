@@ -40,12 +40,16 @@ const BeerResponsiveBar = () => {
     }
   }, [])
 
+  useEffect(() =>{
+    console.log("Effect tigered")
+  }, (endDateRange, startDateRange))
+
   useEffect(() => {
     let dataGroups = []
 
     for (let beer of beers) {
       let date = new Date()
-      
+
       date = ifYearFormat(beer, date)
       date = ifYearMonthFormat(beer, date)
 
@@ -56,13 +60,13 @@ const BeerResponsiveBar = () => {
         modifyDateGroup(dataGroups, date, beer)
       }
     }
-    setgroupsByDate(dataGroups) 
-    
+    setgroupsByDate(dataGroups)
+
     sortDataGroups(dataGroups);
     console.log(dataGroups)
 
     setStartDateRange(dataGroups[0].date)
-    setEndDateRange(dataGroups[dataGroups.length -1].date)
+    setEndDateRange(dataGroups[dataGroups.length - 1].date)
 
   }, [beers])
 
@@ -76,9 +80,13 @@ const BeerResponsiveBar = () => {
     };
   }
 
+  function onChangeStartDate (e){
+    console.log("OnEstartChanged")
+  }
+ 
   return (
     <><div style={{ height: "400px" }}>
-      <Filter end={endDateRange} start={startDateRange}/>
+      <Filter end={endDateRange} start={startDateRange} onChangeStart={onChangeStartDate}/>
       <ResponsiveBar data={groupsByDate}
         keys={["totalBeers"]}
         indexBy="date"
@@ -94,13 +102,13 @@ const BeerResponsiveBar = () => {
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "degrees",
+          legend: "One legend",
           legendPosition: "start",
           legendOffset: -40
         }}
       />
     </div>
-      
+
     </>
   );
 
