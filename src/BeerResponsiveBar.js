@@ -51,10 +51,7 @@ const BeerResponsiveBar = () => {
   }, [])
 
   useEffect(() =>{
-    console.log("Effect tigered")
     
-    console.log("End / " + endDateRange + "Start / " + startDateRange)
-
   }, [endDateRange, startDateRange])
 
   useEffect(() => {
@@ -66,12 +63,8 @@ const BeerResponsiveBar = () => {
       date = ifYearFormat(beer, date)
       date = ifYearMonthFormat(beer, date)
 
-      if (!isDateExist(dataGroups, date)) {
-        dataGroups.push(newDataGroup(beer, date))
-      }
-      if (isDateExist(dataGroups, date)) {
-        modifyDateGroup(dataGroups, date, beer)
-      }
+      createIfNoExist(dataGroups, date, beer);
+      modifyIfExist(dataGroups, date, beer);
     }
     setgroupsByDate(dataGroups)
 
@@ -97,7 +90,12 @@ const BeerResponsiveBar = () => {
  
   return (
     <><div style={{ height: "400px" }}>
-      <Filter end={endDateRange} start={startDateRange} startMin={startMinDate} endMax={endMaxDate}/>
+      <Filter 
+      end={endDateRange} 
+      start={startDateRange} 
+      startMin={startMinDate} 
+      endMax={endMaxDate}/>
+
       <ResponsiveBar data={groupsByDate}
         keys={["totalBeers"]}
         indexBy="date"
@@ -125,6 +123,18 @@ const BeerResponsiveBar = () => {
 
 }
 export default BeerResponsiveBar;
+
+function modifyIfExist(dataGroups, date, beer) {
+  if (isDateExist(dataGroups, date)) {
+    modifyDateGroup(dataGroups, date, beer);
+  }
+}
+
+function createIfNoExist(dataGroups, date, beer) {
+  if (!isDateExist(dataGroups, date)) {
+    dataGroups.push(newDataGroup(beer, date));
+  }
+}
 
 function sortDataGroups(dataGroups) {
   dataGroups.sort(function (a, b) {
