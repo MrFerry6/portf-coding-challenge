@@ -3,11 +3,15 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { publish } from "./Events"
 
-const Filter = ({ end, start, startMin, endMax }) => {
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-    const [startMinDate, setStartMinDate] = useState(new Date());
-    const [endMaxDate, setEndMaxDate] = useState(new Date());
+const Filter = ({ end, start, startMin, endMax, AbvList }) => {
+    const [startDate, setStartDate] = useState(new Date())
+    const [endDate, setEndDate] = useState(new Date())
+    const [startMinDate, setStartMinDate] = useState(new Date())
+    const [endMaxDate, setEndMaxDate] = useState(new Date())
+    const [AbvOptions, setABVOptions] = useState([])
+    useEffect(() =>{
+        setABVOptions(AbvList)
+    },[AbvList])
 
     useEffect(() => {
         setStartDate(new Date(start))
@@ -54,6 +58,11 @@ const Filter = ({ end, start, startMin, endMax }) => {
                 endDate={endDate}
                 minDate={startDate}
             />
+            <select >
+            {AbvOptions.map((option) => (
+              <option value={option}>{option}</option>
+            ))}
+          </select>
         </>
     )
 }

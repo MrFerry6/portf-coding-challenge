@@ -15,10 +15,10 @@ const BeerResponsiveBar = () => {
   const [groupsByFilterDate, setGroupsByFilterDate] = useState([{}])
   const [endDateRange, setEndDateRange] = useState(new Date())
   const [startDateRange, setStartDateRange] = useState(new Date())  
-  const [startMinDate, setStartMinDate] = useState(new Date());
-  const [endMaxDate, setEndMaxDate] = useState(new Date());
-  const [isFromPiked, setIsFromPiked] = useState(false);
-
+  const [startMinDate, setStartMinDate] = useState(new Date())
+  const [endMaxDate, setEndMaxDate] = useState(new Date())
+  const [isFromPiked, setIsFromPiked] = useState(false)
+  const [valuesABVList, setValuesAVList] = useState([])
   useEffect(() => {
     subscribe("startDateChange", (detail) => setStartDateRange(new Date(detail.detail)))
     subscribe("endDateChange", (detail) => setEndDateRange(new Date(detail.detail)))
@@ -81,6 +81,12 @@ const BeerResponsiveBar = () => {
     setIsFromPiked(true)
   }, [endDateRange, startDateRange])
 
+  useEffect(() =>{
+    setValuesAVList(getAbvValues(groupsByDate));
+  },[groupsByDate])
+  useEffect(() =>{
+    setValuesAVList(getAbvValues(groupsByFilterDate));
+  },[groupsByFilterDate])
 
   function getRequestOptions() {
     return {
@@ -98,9 +104,11 @@ const BeerResponsiveBar = () => {
       end={endDateRange} 
       start={startDateRange} 
       startMin={startMinDate} 
-      endMax={endMaxDate}/>
+      endMax={endMaxDate}
+      AbvList={valuesABVList}/>
 
-      <ResponsiveBar data={isFromPiked? groupsByFilterDate : groupsByDate}
+      <ResponsiveBar
+        data={isFromPiked? groupsByFilterDate : groupsByDate }
         keys={["totalBeers"]}
         indexBy="date"
         minValue={0}
@@ -127,6 +135,15 @@ const BeerResponsiveBar = () => {
 
 }
 export default BeerResponsiveBar;
+
+function getAbvValues(groupsByDate) {
+  let abvList = [];
+
+  for (let group of groupsByDate) {
+    if (!abvList.includes(group.abv)) { abvList.push(group.abv); }
+  }
+  return abvList;
+}
 
 function modifyIfExist(dataGroups, date, beer) {
   if (isDateExist(dataGroups, date)) {
@@ -163,12 +180,15 @@ function newDataGroup(beer, date) {
     beersIds: [],
     date: new Date(),
     totalBeers: 0,
-    beersNames: []
+    beersNames: [],
+    abv: 0
   }
+
   newDataGroup.beersIds.push(beer.id)
   newDataGroup.date = date
   newDataGroup.totalBeers++
   newDataGroup.beersNames.push(beer.name)
+  newDataGroup.abv = beer.abv
   return newDataGroup
 }
 
