@@ -11,7 +11,7 @@ const BeerResponsiveBar = () => {
     { quarter: 4, earnings: 1000.5 }
   ];
   const [beers, setBeers] = useState([{}])
-  const [groupsByDate, setgroupsByDate] = useState([{}])
+  const [groupsByDate, setGroupsByDate] = useState([{}])
   const [endDateRange, setEndDateRange] = useState(new Date())
   const [startDateRange, setStartDateRange] = useState(new Date())  
   const [startMinDate, setStartMinDate] = useState(new Date());
@@ -50,10 +50,6 @@ const BeerResponsiveBar = () => {
       }
   }, [])
 
-  useEffect(() =>{
-    
-  }, [endDateRange, startDateRange])
-
   useEffect(() => {
     let dataGroups = []
 
@@ -66,7 +62,7 @@ const BeerResponsiveBar = () => {
       createIfNoExist(dataGroups, date, beer);
       modifyIfExist(dataGroups, date, beer);
     }
-    setgroupsByDate(dataGroups)
+    setGroupsByDate(dataGroups)
 
     sortDataGroups(dataGroups);
     console.log(dataGroups)
@@ -77,6 +73,12 @@ const BeerResponsiveBar = () => {
     setEndMaxDate(dataGroups[dataGroups.length - 1].date)
 
   }, [beers])
+
+  useEffect(() =>{
+    setGroupsByDate(getByDateRange(startDateRange, endDateRange, groupsByDate))
+    console.log(groupsByDate)
+  }, [endDateRange, startDateRange])
+
 
   function getRequestOptions() {
     return {
@@ -141,7 +143,16 @@ function sortDataGroups(dataGroups) {
     return new Date(a.date) - new Date(b.date);
   });
 }
-
+function getByDateRange(start, end, groups){
+    let filterGroups = []
+    
+    for(let group of groups){
+      if(group.date < end && group.date > start) {
+        filterGroups.push(group)
+      }      
+    }
+    return filterGroups
+}
 function newDataGroup(beer, date) {
   let newDataGroup = {
     beersIds: [],
