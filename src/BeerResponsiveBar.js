@@ -12,6 +12,7 @@ const BeerResponsiveBar = () => {
   ];
   const [beers, setBeers] = useState([{}])
   const [groupsByDate, setGroupsByDate] = useState([{}])
+  const [groupsByFilterDate, setGroupsByFilterDate] = useState([{}])
   const [endDateRange, setEndDateRange] = useState(new Date())
   const [startDateRange, setStartDateRange] = useState(new Date())  
   const [startMinDate, setStartMinDate] = useState(new Date());
@@ -45,8 +46,8 @@ const BeerResponsiveBar = () => {
         .catch(error => console.log('error', error))
       }
       return () => {
-        unsubscribe("startDateChang");
-        unsubscribe("endtDateChang");
+        unsubscribe("startDateChange");
+        unsubscribe("endDateChange");
       }
   }, [])
 
@@ -65,7 +66,6 @@ const BeerResponsiveBar = () => {
     setGroupsByDate(dataGroups)
 
     sortDataGroups(dataGroups);
-    console.log(dataGroups)
 
     setStartDateRange(dataGroups[0].date)
     setEndDateRange(dataGroups[dataGroups.length - 1].date)
@@ -75,8 +75,8 @@ const BeerResponsiveBar = () => {
   }, [beers])
 
   useEffect(() =>{
-    setGroupsByDate(getByDateRange(startDateRange, endDateRange, groupsByDate))
-    console.log(groupsByDate)
+    setGroupsByFilterDate(getByDateRange(startDateRange, endDateRange, groupsByDate))
+   
   }, [endDateRange, startDateRange])
 
 
@@ -146,11 +146,14 @@ function sortDataGroups(dataGroups) {
 function getByDateRange(start, end, groups){
     let filterGroups = []
     
+    console.log("from byDateRange = "+start+"/"+end )
+    console.log("unfilter-"+groups.length)
     for(let group of groups){
-      if(group.date < end && group.date > start) {
+      if(group.date <= end && group.date >= start) {
         filterGroups.push(group)
       }      
     }
+    console.log("filter-"+filterGroups.length)
     return filterGroups
 }
 function newDataGroup(beer, date) {
