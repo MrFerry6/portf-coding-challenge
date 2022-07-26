@@ -13,7 +13,9 @@ const BeerResponsiveBar = () => {
   const [beers, setBeers] = useState([{}])
   const [groupsByDate, setgroupsByDate] = useState([{}])
   const [endDateRange, setEndDateRange] = useState(new Date())
-  const [startDateRange, setStartDateRange] = useState(new Date())
+  const [startDateRange, setStartDateRange] = useState(new Date())  
+  const [startMinDate, setStartMinDate] = useState(new Date());
+  const [endMaxDate, setEndMaxDate] = useState(new Date());
 
   useEffect(() => {
     subscribe("startDateChange", (detail) => setStartDateRange(new Date(detail.detail)))
@@ -78,6 +80,8 @@ const BeerResponsiveBar = () => {
 
     setStartDateRange(dataGroups[0].date)
     setEndDateRange(dataGroups[dataGroups.length - 1].date)
+    setStartMinDate(dataGroups[0].date)
+    setEndMaxDate(dataGroups[dataGroups.length - 1].date)
 
   }, [beers])
 
@@ -93,7 +97,7 @@ const BeerResponsiveBar = () => {
  
   return (
     <><div style={{ height: "400px" }}>
-      <Filter end={endDateRange} start={startDateRange} />
+      <Filter end={endDateRange} start={startDateRange} startMin={startMinDate} endMax={endMaxDate}/>
       <ResponsiveBar data={groupsByDate}
         keys={["totalBeers"]}
         indexBy="date"

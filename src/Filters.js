@@ -3,17 +3,23 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { publish } from "./Events"
 
-const Filter = ({ end, start }) => {
+const Filter = ({ end, start, startMin, endMax }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
+    const [startMinDate, setStartMinDate] = useState(new Date());
+    const [endMaxDate, setEndMaxDate] = useState(new Date());
 
     useEffect(() => {
         setStartDate(new Date(start))
         setEndDate(new Date(end))
     }, [end, start])
+    useEffect(() =>{
+        setStartMinDate(new Date(startMin))
+        setEndMaxDate(new Date(endMax))
+    },[startMin, endMax])
     
     function onEndDateChange(date) {
-        if (date > end) {
+        if (date > endMaxDate) {
             date = end
         }
         setEndDate(date)
@@ -21,7 +27,7 @@ const Filter = ({ end, start }) => {
     }
    
     function onStartDateChange(date) {
-        if (date < start || date > end) {
+        if (date < startMinDate || date > end) {
             date = start
         }
         setStartDate(date)        
