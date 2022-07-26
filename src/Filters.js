@@ -17,7 +17,7 @@ const Filter = ({ end, start }) => {
             date = end
         }
         setEndDate(date)
-        publish('endDateChange')
+        publish('endDateChange',date)
     }
    
     function onStartDateChange(date) {
@@ -25,7 +25,7 @@ const Filter = ({ end, start }) => {
             date = start
         }
         setStartDate(date)        
-        publish('startDateChange')
+        publish('startDateChange', date)
     }
     return (
         <>

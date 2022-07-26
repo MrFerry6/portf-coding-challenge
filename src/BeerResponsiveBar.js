@@ -16,8 +16,8 @@ const BeerResponsiveBar = () => {
   const [startDateRange, setStartDateRange] = useState(new Date())
 
   useEffect(() => {
-    subscribe("startDateChange", (end) => setStartDateRange(new Date()))
-    subscribe("endDateChange", (end) => setEndDateRange(new Date()))
+    subscribe("startDateChange", (detail) => setStartDateRange(new Date(detail.detail)))
+    subscribe("endDateChange", (detail) => setEndDateRange(new Date(detail.detail)))
     
     var entries = []
     getAllbeers(1);
