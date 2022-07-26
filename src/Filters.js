@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
+import { publish } from "./Events"
 
 const Filter = ({ end, start }) => {
     const [startDate, setStartDate] = useState(new Date());
@@ -16,13 +17,15 @@ const Filter = ({ end, start }) => {
             date = end
         }
         setEndDate(date)
+        publish('endDateChange')
     }
    
     function onStartDateChange(date) {
         if (date < start || date > end) {
             date = start
         }
-        setStartDate(date)
+        setStartDate(date)        
+        publish('endStartChange')
     }
     return (
         <>
