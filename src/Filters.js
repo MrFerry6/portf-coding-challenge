@@ -14,14 +14,12 @@ const Filter = ({ end, start, startMin, endMax, AbvList }) => {
     
     useEffect(() =>{
         let options = []
-        console.log("abvList---"+ AbvList.length)
         for (let abv of AbvList){
             options.push({
                 label : abv,
                 value : abv
             })
         }
-        console.log("options--" + options.length )
         setABVOptions(options)
     },[AbvList])
 
@@ -55,7 +53,6 @@ const Filter = ({ end, start, startMin, endMax, AbvList }) => {
         publish('startDateChange', date)
     }
     function onSelectChange(value){
-        console.log("Chengefjadkljfal;jflaj flkdasj f")
         setAbvSelected(value.value)
         publish('abvValueChange', value.value)
     }

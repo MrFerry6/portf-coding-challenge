@@ -22,7 +22,9 @@ const BeerResponsiveBar = () => {
   const [AbvValue, setAbvValue] = useState(0)
   useEffect(() => {
     subscribe("startDateChange", (detail) => setStartDateRange(new Date(detail.detail)))
-    subscribe("endDateChange", (detail) => setEndDateRange(new Date(detail.detail)))
+    subscribe("endDateChange", (detail) => setEndDateRange(new Date(detail.detail)))  
+    subscribe("abvValueChange", (detail) => setAbvValue(detail.detail))
+    
     var entries = []
     getAllbeers(1);
 
@@ -47,8 +49,9 @@ const BeerResponsiveBar = () => {
         .catch(error => console.log('error', error))
     }
     return () => {
-      unsubscribe("startDateChange");
-      unsubscribe("endDateChange");
+      unsubscribe("startDateChange")
+      unsubscribe("endDateChange")
+      unsubscribe("abvValueChange")
     }
   }, [])
 
@@ -81,9 +84,7 @@ const BeerResponsiveBar = () => {
 
   }, [endDateRange, startDateRange])
   useEffect(() => {
-
-    subscribe("abvValueChange", (detail) => setAbvValue(detail.detail))
-    console.log("Subscribed")
+    
     setGroupsByFilterDate(filterByAbv(groupsByFilterDate, AbvValue))
 
   }, [AbvValue])
@@ -186,14 +187,11 @@ function sortDataGroups(dataGroups) {
 function getByDateRange(start, end, groups) {
   let filterGroups = []
 
-  console.log("from byDateRange = " + start + "/" + end)
-  console.log("unfilter-" + groups.length)
   for (let group of groups) {
     if (group.date <= end && group.date >= start) {
       filterGroups.push(group)
     }
   }
-  console.log("filter-" + filterGroups.length)
   return filterGroups
 }
 function newDataGroup(beer, date) {
