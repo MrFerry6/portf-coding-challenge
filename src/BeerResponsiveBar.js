@@ -46,6 +46,9 @@ const BeerResponsiveBar = () => {
 
   useEffect(() =>{
     console.log("Effect tigered")
+    
+    console.log("End / " + endDateRange + "Start / " + startDateRange)
+
   }, [endDateRange, startDateRange])
 
   useEffect(() => {
@@ -83,14 +86,10 @@ const BeerResponsiveBar = () => {
       redirect: 'follow'
     };
   }
-
-  function onChangeStartDate (e){
-    console.log("OnEstartChanged")
-  }
  
   return (
     <><div style={{ height: "400px" }}>
-      <Filter end={endDateRange} start={startDateRange} onChangeStart={onChangeStartDate}/>
+      <Filter end={endDateRange} start={startDateRange} />
       <ResponsiveBar data={groupsByDate}
         keys={["totalBeers"]}
         indexBy="date"
