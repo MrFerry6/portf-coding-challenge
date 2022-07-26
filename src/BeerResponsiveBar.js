@@ -73,28 +73,27 @@ const BeerResponsiveBar = () => {
     setEndDateRange(dataGroups[dataGroups.length - 1].date)
     setStartMinDate(dataGroups[0].date)
     setEndMaxDate(dataGroups[dataGroups.length - 1].date)
-
   }, [beers])
 
   useEffect(() => {
     setGroupsByFilterDate(getByDateRange(startDateRange, endDateRange, groupsByDate))
     setIsFromPiked(true)
+    
   }, [endDateRange, startDateRange])
   useEffect(() => {
-    console.log(AbvValue)
-    subscribe("abvValueChange", (detail) => setAbvValue(detail.detail.value))
-    if (groupsByFilterDate.length > 0) {
-      setGroupsByFilterDate(filterByAbv(groupsByFilterDate, AbvValue))
-    }else{
-      setGroupsByDate(filterByAbv(groupsByDate, AbvValue))
-    }
+    subscribe("abvValueChange", (detail) => setAbvValue(detail.detail.value))    
+      
+    setGroupsByFilterDate(filterByAbv(groupsByFilterDate, AbvValue))
     
   }, [AbvValue])
+
   useEffect(() => {
     setValuesAVList(getAbvValues(groupsByDate));
   }, [groupsByDate])
   useEffect(() => {
+    console.log("AvList behing --" + valuesABVList.length)
     setValuesAVList(getAbvValues(groupsByFilterDate));
+    console.log("AvList after --" + valuesABVList.length)
   }, [groupsByFilterDate])
 
   function getRequestOptions() {

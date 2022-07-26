@@ -11,14 +11,17 @@ const Filter = ({ end, start, startMin, endMax, AbvList }) => {
     const [endMaxDate, setEndMaxDate] = useState(new Date())
     const [AbvOptions, setABVOptions] = useState([{}])
     const [AbvSelected, setAbvSelected] = useState(0)
+    
     useEffect(() =>{
         let options = []
+        console.log("abvList---"+ AbvList.length)
         for (let abv of AbvList){
             options.push({
                 label : abv,
                 value : abv
             })
         }
+        console.log("options--" + options.length )
         setABVOptions(options)
     },[AbvList])
 
@@ -51,6 +54,9 @@ const Filter = ({ end, start, startMin, endMax, AbvList }) => {
         setStartDate(date)        
         publish('startDateChange', date)
     }
+    function onSelectChange(){
+        console.log("change")
+    }
     return (
         <>
             <DatePicker
@@ -74,9 +80,7 @@ const Filter = ({ end, start, startMin, endMax, AbvList }) => {
             />
             <Select 
             options={AbvOptions}
-            onChange={setAbvSelected}>
-            Select an ABV 
-            </Select>
+            onChange={onSelectChange}/>
             
         </>
     )
