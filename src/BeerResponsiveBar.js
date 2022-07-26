@@ -21,6 +21,7 @@ const BeerResponsiveBar = () => {
   const [valuesABVList, setValuesAVList] = useState([])
   const [AbvValue, setAbvValue] = useState(0)
   useEffect(() => {
+    
     subscribe("startDateChange", (detail) => setStartDateRange(new Date(detail.detail)))
     subscribe("endDateChange", (detail) => setEndDateRange(new Date(detail.detail)))  
     subscribe("abvValueChange", (detail) => setAbvValue(detail.detail))
