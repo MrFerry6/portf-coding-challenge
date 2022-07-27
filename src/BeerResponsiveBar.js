@@ -13,7 +13,6 @@ const BeerResponsiveBar = () => {
   const [beers, setBeers] = useState([{}])
   const [groupsByDate, setGroupsByDate] = useState([{}])
   const [groupsByFilterDate, setGroupsByFilterDate] = useState([{}])
-  const [groupsByFilterABV, setGroupsByFilterABV] = useState([{}])
   const [endDateRange, setEndDateRange] = useState(new Date())
   const [startDateRange, setStartDateRange] = useState(new Date())
   const [startMinDate, setStartMinDate] = useState(new Date())
