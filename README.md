@@ -3,8 +3,11 @@
 
 ## fUNCIONALITIES:
   
+  
   -A two pikers to get a range of dates, they are limitited between the earliest first brewed and the last to prevent unvalid values. 
+  
   -A list of ABV to filter by this parameter. The list is binding to values at the range dates provided.
+  
   -A button to reset the filters.
 
 
