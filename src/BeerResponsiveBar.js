@@ -94,9 +94,6 @@ const BeerResponsiveBar = () => {
   }, [abvValue])
 
   useEffect(() => {
-    //setValuesAVList(getAbvValues(groupsByDate));
-  }, [groupsByDate])
-  useEffect(() => {
     setValuesAVList(getAbvValues(startDateRange, endDateRange, groupsByDate));
   }, [groupsByFilterDate])
 
