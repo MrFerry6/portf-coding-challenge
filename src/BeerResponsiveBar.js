@@ -102,7 +102,7 @@ const BeerResponsiveBar = () => {
   }
 
   return (
-    <><div style={{ height: "400px" }}>
+    <><div className="beer-responsive-bar">
       <Filter
         end={endDateRange}
         start={startDateRange}

@@ -3,6 +3,7 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { publish } from "./Events"
 import Select from "react-select"
+import "./App.css"
 
 const Filter = ({ end, start, startMin, endMax, AbvList }) => {
     const [startDate, setStartDate] = useState(new Date())
@@ -11,77 +12,81 @@ const Filter = ({ end, start, startMin, endMax, AbvList }) => {
     const [endMaxDate, setEndMaxDate] = useState(new Date())
     const [AbvOptions, setABVOptions] = useState([{}])
     const [AbvSelected, setAbvSelected] = useState(0)
-    
-    useEffect(() =>{
+
+    useEffect(() => {
         let options = []
-        for (let abv of AbvList){
+        for (let abv of AbvList) {
             options.push({
-                label : abv,
-                value : abv
+                label: abv,
+                value: abv
             })
         }
         setABVOptions(options)
-    },[AbvList])
+    }, [AbvList])
 
     useEffect(() => {
         setStartDate(new Date(start))
         setEndDate(new Date(end))
     }, [end, start])
-    
-    useEffect(() =>{
+
+    useEffect(() => {
         setStartMinDate(new Date(startMin))
         setEndMaxDate(new Date(endMax))
-    },[startMin, endMax])
-    
-    useEffect(() =>{
-       setABVOptions(AbvList)
-    },[AbvSelected])
+    }, [startMin, endMax])
+
+    useEffect(() => {
+        setABVOptions(AbvList)
+    }, [AbvSelected])
 
     function onEndDateChange(date) {
         if (date > endMaxDate) {
             date = end
         }
         setEndDate(date)
-        publish('endDateChange',date)
+        publish('endDateChange', date)
     }
-   
+
     function onStartDateChange(date) {
         if (date < startMinDate || date > end) {
             date = start
         }
-        setStartDate(date)        
+        setStartDate(date)
         publish('startDateChange', date)
     }
-    function onSelectChange(value){
-        
+    function onSelectChange(value) {
+
         setAbvSelected(value.value)
         publish('abvValueChange', value.value)
     }
     return (
         <>
-            <DatePicker
-                dateFormat="MM/yyyy"
-                showMonthYearPicker
-                selected={startDate}
-                onChange={(date) => onStartDateChange(date)}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-            />
-            <DatePicker
-                dateFormat="MM/yyyy"
-                showMonthYearPicker
-                selected={endDate}
-                onChange={(date) => onEndDateChange(date)}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
-            />
-            <Select 
-            options={AbvOptions}
-            onChange={(value) => onSelectChange(value)
-            }/>           
+            <div className="filter-container">
+                <div className="datepikers-container">
+                    <DatePicker
+                        dateFormat="MM/yyyy"
+                        showMonthYearPicker
+                        selected={startDate}
+                        onChange={(date) => onStartDateChange(date)}
+                        selectsStart
+                        startDate={startDate}
+                        endDate={endDate}
+                    />
+                    <DatePicker
+                        dateFormat="MM/yyyy"
+                        showMonthYearPicker
+                        selected={endDate}
+                        onChange={(date) => onEndDateChange(date)}
+                        selectsStart
+                        startDate={startDate}
+                        endDate={endDate}
+                        minDate={startDate}
+                    />
+                </div>
+                <Select
+                    options={AbvOptions}
+                    onChange={(value) => onSelectChange(value)
+                    } />
+            </div>
         </>
     )
 }
