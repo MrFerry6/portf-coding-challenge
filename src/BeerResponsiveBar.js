@@ -20,7 +20,7 @@ const BeerResponsiveBar = () => {
   const [endMaxDate, setEndMaxDate] = useState(new Date())
   const [isFromPiked, setIsFromPiked] = useState(false)
   const [valuesABVList, setValuesAVList] = useState([])
-  const [AbvValue, setAbvValue] = useState(0)
+  const [abvValue, setAbvValue] = useState(0)
   useEffect(() => {
     
     subscribe("startDateChange", (detail) => setStartDateRange(new Date(detail.detail)))
@@ -83,13 +83,15 @@ const BeerResponsiveBar = () => {
   useEffect(() => {
     setGroupsByFilterDate(getByDateRange(startDateRange, endDateRange, groupsByDate))
     setIsFromPiked(true)
-
+    if(abvValue){
+      setGroupsByFilterDate(filterByAbv(startDateRange, endDateRange,groupsByDate,abvValue))
+    }
   }, [endDateRange, startDateRange])
   useEffect(() => {
 
-    setGroupsByFilterDate(filterByAbv(startDateRange,endDateRange,groupsByDate,AbvValue))
+    setGroupsByFilterDate(filterByAbv(startDateRange,endDateRange,groupsByDate,abvValue))
 
-  }, [AbvValue])
+  }, [abvValue])
 
   useEffect(() => {
     //setValuesAVList(getAbvValues(groupsByDate));
