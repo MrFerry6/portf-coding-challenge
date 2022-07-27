@@ -1,7 +1,9 @@
 import ResponsiveBar from "nivo/lib/components/charts/bar/ResponsiveBar";
+import { ResponsiveLine } from "nivo/lib/components/charts/line";
 import { useEffect, useState } from "react";
 import { subscribe, unsubscribe } from "./Events";
 import Filter from "./Filters";
+
 
 const BeerResponsiveBar = () => {
 
@@ -101,6 +103,8 @@ const BeerResponsiveBar = () => {
     };
   }
 
+
+
   return (
     <><div className="beer-responsive-bar">
       <Filter
@@ -114,9 +118,27 @@ const BeerResponsiveBar = () => {
         data={isFromPiked ? groupsByFilterDate : groupsByDate}
         keys={["totalBeers"]}
         indexBy="shortDate"
-        margin={{ top: 20, right: 10, bottom: 50, left: 50 }}
+        margin={{ top: 20, right: 10, bottom: 50, left: 10}}
         padding={0.1}
         enableLabel={false}
+        theme={{
+          tooltip: {
+            container: {
+              background: "black",
+              color: "white",
+              fontSize: "inherit",
+              borderRadius: "2px",
+              boxShadow: "0 1px 2px rgba(0, 0, 0, 0.25)",
+              padding: "5px 9px"
+            }          
+          }
+          
+        }}
+        axisBottom={{
+          tickRotation: 90,
+          legendOffset: -80,
+          legendPosition: 'start',
+       }}
       />
     </div>
 
@@ -190,7 +212,7 @@ function newDataGroup(beer, date) {
 
   newDataGroup.beersIds.push(beer.id)
   newDataGroup.date = date
-  newDataGroup.shortDate = JSON.stringify(date.getMonth()) +
+  newDataGroup.shortDate = JSON.stringify(date.getMonth() + 1) +
     "/" + JSON.stringify(date.getFullYear())
   newDataGroup.totalBeers++
   newDataGroup.beersNames.push(beer.name)
