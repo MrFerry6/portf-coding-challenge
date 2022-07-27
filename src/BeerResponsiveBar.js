@@ -4,12 +4,7 @@ import { subscribe, unsubscribe } from "./Events";
 import Filter from "./Filters";
 
 const BeerResponsiveBar = () => {
-  const data = [
-    { quarter: 1, earnings: 1000.5 },
-    { quarter: 2, earnings: 1000.2 },
-    { quarter: 3, earnings: 25000.5 },
-    { quarter: 4, earnings: 1000.5 }
-  ];
+  
   const [beers, setBeers] = useState([{}])
   const [groupsByDate, setGroupsByDate] = useState([{}])
   const [groupsByFilterDate, setGroupsByFilterDate] = useState([{}])
