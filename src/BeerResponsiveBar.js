@@ -4,7 +4,7 @@ import { subscribe, unsubscribe } from "./Events";
 import Filter from "./Filters";
 
 const BeerResponsiveBar = () => {
-  
+
   const [beers, setBeers] = useState([{}])
   const [groupsByDate, setGroupsByDate] = useState([{}])
   const [groupsByFilterDate, setGroupsByFilterDate] = useState([{}])
@@ -16,11 +16,11 @@ const BeerResponsiveBar = () => {
   const [valuesABVList, setValuesAVList] = useState([])
   const [abvValue, setAbvValue] = useState(0)
   useEffect(() => {
-    
+
     subscribe("startDateChange", (detail) => setStartDateRange(new Date(detail.detail)))
-    subscribe("endDateChange", (detail) => setEndDateRange(new Date(detail.detail)))  
+    subscribe("endDateChange", (detail) => setEndDateRange(new Date(detail.detail)))
     subscribe("abvValueChange", (detail) => setAbvValue(detail.detail))
-    
+
     var entries = []
     getAllbeers(1);
 
@@ -77,13 +77,13 @@ const BeerResponsiveBar = () => {
   useEffect(() => {
     setGroupsByFilterDate(getByDateRange(startDateRange, endDateRange, groupsByDate))
     setIsFromPiked(true)
-    if(abvValue){
-      setGroupsByFilterDate(filterByAbv(startDateRange, endDateRange,groupsByDate,abvValue))
+    if (abvValue) {
+      setGroupsByFilterDate(filterByAbv(startDateRange, endDateRange, groupsByDate, abvValue))
     }
   }, [endDateRange, startDateRange])
   useEffect(() => {
 
-    setGroupsByFilterDate(filterByAbv(startDateRange,endDateRange,groupsByDate,abvValue))
+    setGroupsByFilterDate(filterByAbv(startDateRange, endDateRange, groupsByDate, abvValue))
 
   }, [abvValue])
 
@@ -113,8 +113,8 @@ const BeerResponsiveBar = () => {
       <ResponsiveBar
         data={isFromPiked ? groupsByFilterDate : groupsByDate}
         keys={["totalBeers"]}
-        indexBy="date"
-        margin={{ top: 20, right: 10, bottom: 10, left: 50}}
+        indexBy="shortDate"
+        margin={{ top: 20, right: 10, bottom: 50, left: 50 }}
         padding={0.1}
         enableLabel={false}
       />
@@ -126,7 +126,7 @@ const BeerResponsiveBar = () => {
 }
 export default BeerResponsiveBar;
 
-function filterByAbv(start, end, groupsByDate,abvValue) {
+function filterByAbv(start, end, groupsByDate, abvValue) {
   let groupsByAbv = []
   const groups = getByDateRange(start, end, groupsByDate)
 
@@ -140,7 +140,7 @@ function filterByAbv(start, end, groupsByDate,abvValue) {
 }
 
 function getAbvValues(start, end, groupsByDate) {
-  let abvList = [];  
+  let abvList = [];
   const groups = getByDateRange(start, end, groupsByDate)
 
   for (let group of groups) {
@@ -182,6 +182,7 @@ function newDataGroup(beer, date) {
   let newDataGroup = {
     beersIds: [],
     date: new Date(),
+    shortDate: "",
     totalBeers: 0,
     beersNames: [],
     abv: 0
@@ -189,6 +190,8 @@ function newDataGroup(beer, date) {
 
   newDataGroup.beersIds.push(beer.id)
   newDataGroup.date = date
+  newDataGroup.shortDate = JSON.stringify(date.getMonth()) +
+    "/" + JSON.stringify(date.getFullYear())
   newDataGroup.totalBeers++
   newDataGroup.beersNames.push(beer.name)
   newDataGroup.abv = beer.abv
