@@ -13,6 +13,7 @@ const BeerResponsiveBar = () => {
   const [beers, setBeers] = useState([{}])
   const [groupsByDate, setGroupsByDate] = useState([{}])
   const [groupsByFilterDate, setGroupsByFilterDate] = useState([{}])
+  const [groupsByFilterABV, setGroupsByFilterABV] = useState([{}])
   const [endDateRange, setEndDateRange] = useState(new Date())
   const [startDateRange, setStartDateRange] = useState(new Date())
   const [startMinDate, setStartMinDate] = useState(new Date())
@@ -85,16 +86,16 @@ const BeerResponsiveBar = () => {
 
   }, [endDateRange, startDateRange])
   useEffect(() => {
-    
-    setGroupsByFilterDate(filterByAbv(groupsByFilterDate, AbvValue))
+
+    setGroupsByFilterDate(filterByAbv(startDateRange,endDateRange,groupsByDate,AbvValue))
 
   }, [AbvValue])
 
   useEffect(() => {
-    setValuesAVList(getAbvValues(groupsByDate));
+    //setValuesAVList(getAbvValues(groupsByDate));
   }, [groupsByDate])
   useEffect(() => {
-    setValuesAVList(getAbvValues(groupsByFilterDate));
+    setValuesAVList(getAbvValues(startDateRange, endDateRange, groupsByDate));
   }, [groupsByFilterDate])
 
   function getRequestOptions() {
@@ -145,11 +146,12 @@ const BeerResponsiveBar = () => {
 }
 export default BeerResponsiveBar;
 
-function filterByAbv(groupsByFilterDate, AbvValue) {
+function filterByAbv(start, end, groupsByDate,abvValue) {
   let groupsByAbv = []
+  const groups = getByDateRange(start, end, groupsByDate)
 
-  for (let group of groupsByFilterDate) {
-    if (group.abv === AbvValue) {
+  for (let group of groups) {
+    if (group.abv === abvValue) {
       groupsByAbv.push(group);
     }
   }
@@ -157,10 +159,11 @@ function filterByAbv(groupsByFilterDate, AbvValue) {
   return groupsByAbv
 }
 
-function getAbvValues(groupsByDate) {
-  let abvList = [];
+function getAbvValues(start, end, groupsByDate) {
+  let abvList = [];  
+  const groups = getByDateRange(start, end, groupsByDate)
 
-  for (let group of groupsByDate) {
+  for (let group of groups) {
     if (!abvList.includes(group.abv)) {
       abvList.push(group.abv)
     }

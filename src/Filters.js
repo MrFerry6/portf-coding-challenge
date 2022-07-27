@@ -34,7 +34,7 @@ const Filter = ({ end, start, startMin, endMax, AbvList }) => {
     },[startMin, endMax])
     
     useEffect(() =>{
-       
+       setABVOptions(AbvList)
     },[AbvSelected])
 
     function onEndDateChange(date) {
@@ -53,6 +53,7 @@ const Filter = ({ end, start, startMin, endMax, AbvList }) => {
         publish('startDateChange', date)
     }
     function onSelectChange(value){
+        
         setAbvSelected(value.value)
         publish('abvValueChange', value.value)
     }
@@ -79,7 +80,6 @@ const Filter = ({ end, start, startMin, endMax, AbvList }) => {
             />
             <Select 
             options={AbvOptions}
-            
             onChange={(value) => onSelectChange(value)}/>           
         </>
     )
