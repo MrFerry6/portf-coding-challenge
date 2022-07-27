@@ -80,7 +80,8 @@ const Filter = ({ end, start, startMin, endMax, AbvList }) => {
             />
             <Select 
             options={AbvOptions}
-            onChange={(value) => onSelectChange(value)}/>           
+            onChange={(value) => onSelectChange(value)
+            }/>           
         </>
     )
 }
