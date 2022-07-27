@@ -1,7 +1,7 @@
 
 # PortF Coding Challenge
 
-## fUNCIONALITIES:
+## Funcionalities:
   
   
   -Two pikers to get a range of dates, they are limitited between the earliest first brewed and the last to prevent unvalid values. 
