@@ -117,9 +117,9 @@ const BeerResponsiveBar = () => {
         data={isFromPiked ? groupsByFilterDate : groupsByDate}
         keys={["totalBeers"]}
         indexBy="shortDate"
-        margin={{ top: 20, right: 10, bottom: 50, left: 10}}
+        margin={{ top: 20, right: 10, bottom: 50, left: 50}}
         padding={0.1}
-        enableLabel={false}
+        enableLabel={true}
         theme={{
           tooltip: {
             container: {
