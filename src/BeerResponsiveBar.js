@@ -1,5 +1,4 @@
 import ResponsiveBar from "nivo/lib/components/charts/bar/ResponsiveBar";
-import { ResponsiveLine } from "nivo/lib/components/charts/line";
 import { useEffect, useState } from "react";
 import { subscribe, unsubscribe } from "./Events";
 import Filter from "./Filters";
