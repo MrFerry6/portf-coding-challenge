@@ -58,6 +58,9 @@ const Filter = ({ end, start, startMin, endMax, AbvList }) => {
         setAbvSelected(value.value)
         publish('abvValueChange', value.value)
     }
+    function refreshPage(){
+        window.location.reload();
+    }
     return (
         <>
             <div className="filter-container">
@@ -86,6 +89,7 @@ const Filter = ({ end, start, startMin, endMax, AbvList }) => {
                     options={AbvOptions}
                     onChange={(value) => onSelectChange(value)
                     } />
+                <button type="button" onClick={refreshPage}>Reset</button>    
             </div>
         </>
     )
