@@ -102,7 +102,8 @@ const BeerResponsiveBar = () => {
   }
 
   return (
-    <><div className="beer-responsive-bar">
+    <>
+    <div className="beer-responsive-bar">
       <Filter
         end={endDateRange}
         start={startDateRange}
@@ -114,9 +115,8 @@ const BeerResponsiveBar = () => {
         data={isFromPiked ? groupsByFilterDate : groupsByDate}
         keys={["totalBeers"]}
         indexBy="date"
-        margin={{ top: 20, right: 10, bottom: 50, left: 50}}
-        padding={0.1}
-       
+        margin={{ top: 20, right: 10, bottom: 10, left: 50}}
+        padding={0.1} 
       />
     </div>
 
